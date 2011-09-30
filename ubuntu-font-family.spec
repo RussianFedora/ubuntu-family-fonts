@@ -1,17 +1,16 @@
-Summary:	Ubuntu Font Family, sans-serif typeface hinted for clarity
-Name:		ubuntu-font-family
-Version:	0.69
-Release:	1
+Summary:    Ubuntu Font Family, sans-serif typeface hinted for clarity
+Name:       ubuntu-font-family
+Version:    0.80
+Release:    1.R
 
-Url:		http://font.ubuntu.com
-License:	Ubuntu Font Licence 1.0
-Group:		User Interface/X
-Source0:	http://font.ubuntu.com/download/ubuntu-font-family-0.69+ufl.zip
-BuildRoot:	%{_tmppath}/%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Url:        http://font.ubuntu.com
+License:    Ubuntu Font Licence 1.0
+Group:      User Interface/X
+Source0:    http://font.ubuntu.com/download/ubuntu-font-family-0.80.zip
 
-BuildArch:	noarch
+BuildArch:  noarch
 
-Requires(post):	fontconfig
+Requires(post): fontconfig
 
 
 %description
@@ -27,7 +26,7 @@ you are expressly encouraged to experiment, modify, share and improve.
 
 
 %prep
-%setup -q -n %{name}-%{version}+ufl
+%setup -q -n %{name}-%{version}
 
 
 %build
@@ -45,7 +44,7 @@ ln -s /usr/share/fonts/%{name}
 cd -
 
 
-%post 
+%post
 if [ -x /usr/bin/fc-cache ]; then
     /usr/bin/fc-cache /usr/share/fonts/dejavu || :
 fi
@@ -61,13 +60,16 @@ fi
 rm -rf $RPM_BUILD_ROOT
 
 
-%files 
+%files
 %defattr(-,root,root,0755)  
-%doc README.txt FONTLOG.txt LICENCE-FAQ.txt LICENCE.txt RELEASENOTES.txt TRADEMARKS.txt copyright.txt
+%doc README.txt FONTLOG.txt LICENCE-FAQ.txt LICENCE.txt TRADEMARKS.txt CONTRIBUTING.txt copyright.txt
 %{_sysconfdir}/X11/fontpath.d/*
 %{_datadir}/fonts/%{name}/*.ttf
 
 
 %changelog
+* Wed Sep 30 2011 Vasiliy N. Glazov <vascom2@gmail.com> - 0.80-1.R
+- Update to 0.80
+
 * Tue Oct 12 2010 Arkady L. Shane <ashejn@yandex-team.ru> 0.69-1
 - initial build for Fedora
