@@ -1,12 +1,13 @@
 Summary:    Ubuntu Font Family, sans-serif typeface hinted for clarity
 Name:       ubuntu-font-family
-Version:    0.80
-Release:    1.R
+Version:    0.69
+Release:    2.R
 
 Url:        http://font.ubuntu.com
 License:    Ubuntu Font Licence 1.0
 Group:      User Interface/X
-Source0:    http://font.ubuntu.com/download/ubuntu-font-family-0.80.zip
+Source0:    http://font.ubuntu.com/download/%{name}-%{version}+ufl.zip
+Epoch:      5
 
 BuildArch:  noarch
 
@@ -26,7 +27,7 @@ you are expressly encouraged to experiment, modify, share and improve.
 
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{name}-%{version}+ufl
 
 
 %build
@@ -68,6 +69,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Nov 11 2011 Vasiliy N. Glazov <vascom2@gmail.com> - 0.69-2.R
+- Revert to 0.69
+
 * Wed Sep 30 2011 Vasiliy N. Glazov <vascom2@gmail.com> - 0.80-1.R
 - Update to 0.80
 
