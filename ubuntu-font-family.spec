@@ -1,78 +1,58 @@
-Summary:    Ubuntu Font Family, sans-serif typeface hinted for clarity
-Name:       ubuntu-font-family
-Version:    0.69
-Release:    2.R
+Name:           ubuntu-font-family
+Version:        0.83
+Release:        1%{?dist}
+Summary:        This is the Ubuntu Font Family
 
-Url:        http://font.ubuntu.com
-License:    Ubuntu Font Licence 1.0
-Group:      User Interface/X
-Source0:    http://font.ubuntu.com/download/%{name}-%{version}+ufl.zip
-Epoch:      5
+License:        Ubuntu Font License 1.0
+URL:            http://font.ubuntu.com/
+Source0:        http://font.ubuntu.com/download/%{name}-%{version}.zip
 
-BuildArch:  noarch
-
-Requires(post): fontconfig
-
+BuildArch:      noarch
 
 %description
-The Ubuntu Font Family are a set of matching new libre/open fonts in
-development during 2010--2011. The development is being funded by
-Canonical Ltd on behalf the wider Free Software community and the
-Ubuntu project. The technical font design work and implementation is
-being undertaken by Dalton Maag.
-
-Both the final font Truetype/OpenType files and the design files used
-to produce the font family are distributed under an open license and
-you are expressly encouraged to experiment, modify, share and improve. 
-
+It is a unique, custom designed font that has a very distinctive look and feel.
 
 %prep
-%setup -q -n %{name}-%{version}+ufl
+%setup -q
 
+mv LICENCE.txt LICENSE.txt
+mv LICENCE-FAQ.txt LICENSE-FAQ.txt
+
+# fix https://bugs.launchpad.net/ubuntu-font-family/+bug/744812 issue:
+# wrong font rendering for qt applications
+rm Ubuntu-M.ttf Ubuntu-MI.ttf
 
 %build
-
+# not build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
-install -d $RPM_BUILD_ROOT%{_datadir}/fonts/%{name}
-install -m 644 *.ttf  $RPM_BUILD_ROOT%{_datadir}/fonts/%{name}
-
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/X11/fontpath.d
-cd $RPM_BUILD_ROOT%{_sysconfdir}/X11/fontpath.d
-ln -s /usr/share/fonts/%{name}
-cd -
-
+for font in `ls | grep ttf`; do
+    %{__install} -D -m 0644 $font %{buildroot}%{_datadir}/fonts/%{name}/$font
+done
 
 %post
 if [ -x /usr/bin/fc-cache ]; then
     /usr/bin/fc-cache /usr/share/fonts/dejavu || :
 fi
 
-
 %postun
 if [ $1 -eq 0 -a -x /usr/bin/fc-cache ] ; then
     /usr/bin/fc-cache /usr/share/fonts/dejavu || :
 fi
 
-
-%clean
-rm -rf $RPM_BUILD_ROOT
-
-
 %files
-%defattr(-,root,root,0755)  
-%doc README.txt FONTLOG.txt LICENCE-FAQ.txt LICENCE.txt TRADEMARKS.txt CONTRIBUTING.txt copyright.txt
-%{_sysconfdir}/X11/fontpath.d/*
-%{_datadir}/fonts/%{name}/*.ttf
-
+%doc CONTRIBUTING.txt FONTLOG.txt README.txt TRADEMARKS.txt
+%license copyright.txt LICENSE.txt LICENSE-FAQ.txt
+%{_datadir}/fonts/%{name}
 
 %changelog
-* Wed Nov 11 2011 Vasiliy N. Glazov <vascom2@gmail.com> - 0.69-2.R
+* Wed Nov 04 2015 Maxim Orlov <murmansksity@gmail.com> - 0.83-1.R
+- Update to 0.83
+
+* Fri Nov 11 2011 Vasiliy N. Glazov <vascom2@gmail.com> - 0.69-2.R
 - Revert to 0.69
 
-* Wed Sep 30 2011 Vasiliy N. Glazov <vascom2@gmail.com> - 0.80-1.R
+* Fri Sep 30 2011 Vasiliy N. Glazov <vascom2@gmail.com> - 0.80-1.R
 - Update to 0.80
 
 * Tue Oct 12 2010 Arkady L. Shane <ashejn@yandex-team.ru> 0.69-1
